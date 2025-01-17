@@ -7,6 +7,12 @@ import (
 )
 
 func Starting() {
+	inputCheck()
+	airpotsCheck()
+	outputCreate()
+}
+
+func inputCheck() {
 	// Open the file named "testing", we need to write a path to it
 	// file -- the file handle if successful
 	// err -- any error that occurred during the operation (or nil if successful)
@@ -21,8 +27,6 @@ func Starting() {
 		}
 		return
 	}
-
-	defer file.Close()
 
 	//Read the file line by line and print each line
 	inputScanner := bufio.NewScanner(file)
@@ -43,7 +47,7 @@ func Starting() {
 }
 
 func airpotsCheck() {
-	file, err := os.Open("itineraryairport-lookup.csv")
+	file, err := os.Open("itinerary/airport-lookup.csv")
 
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -54,10 +58,13 @@ func airpotsCheck() {
 		return
 	}
 
+	// for testing, DELETE LATER
 	fmt.Println("Airport lookup file found")
 
+	// bufio is connected to the file that was opened by os.Open()
 	airportsScanner := bufio.NewScanner(file)
 
+	// Scanner returns true if the next token is available, false otherwise
 	if !airportsScanner.Scan() {
 		fmt.Println("Airport lookup is empty")
 		return
@@ -67,5 +74,12 @@ func airpotsCheck() {
 }
 
 func outputCreate() {
-	os.Create("output.txt")
+	file, err := os.Create("itinerary/output.txt")
+	if err != nil {
+		fmt.Println("Error creating output file:", err)
+		return
+	}
+	defer file.Close()
+
+	fmt.Println("Output file created successfully")
 }
