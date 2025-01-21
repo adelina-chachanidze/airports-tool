@@ -9,9 +9,9 @@ import (
 	"strings"
 )
 
-func outputContents() {
+func processAirportCodes() {
 	// Step 1: Load the airport lookup CSV into a map
-	airportData := loadAirportData("itinerary/airport-lookup.csv")
+	airportData := loadAirportDataFromCSV("itinerary/airport-lookup.csv")
 
 	// Step 2: Open the input file
 	file, _ := os.Open("itinerary/input.txt")
@@ -25,8 +25,8 @@ func outputContents() {
 	scanner := bufio.NewScanner(file)
 
 	// Step 4: Regex patterns for IATA and ICAO codes
-	iataRegex := regexp.MustCompile(`#(\w{3})`)    // Matches IATA codes (#LAX)
-	icaoRegex := regexp.MustCompile(`##(\w{4})`)  // Matches ICAO codes (##EGLL)
+	iataRegex := regexp.MustCompile(`#(\w{3})`)  // Matches IATA codes (#LAX)
+	icaoRegex := regexp.MustCompile(`##(\w{4})`) // Matches ICAO codes (##EGLL)
 
 	// Step 5: Process each line of the input file
 	for scanner.Scan() {
@@ -59,7 +59,7 @@ func outputContents() {
 }
 
 // Helper function to load airport data into a map
-func loadAirportData(filepath string) map[string]string {
+func loadAirportDataFromCSV(filepath string) map[string]string {
 	file, _ := os.Open(filepath)
 	defer file.Close()
 
@@ -90,5 +90,7 @@ func loadAirportData(filepath string) map[string]string {
 		airportMap[iataCode] = name
 	}
 
+	fmt.Println("Processing csv")
+	time()
 	return airportMap
 }
