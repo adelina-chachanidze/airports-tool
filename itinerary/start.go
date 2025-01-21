@@ -15,9 +15,9 @@ func Starting() {
 	}
 	defer outputFile.Close()
 
-	inputLines := inputCheck()
+	inputCheck()
 	airpotsCheck()
-	outputCreate(inputLines)
+	outputCreate()
 }
 
 func inputCheck() []string {
@@ -83,7 +83,7 @@ func airpotsCheck() {
 	defer file.Close()
 }
 
-func outputCreate(lines []string) {
+func outputCreate() {
 	file, err := os.Create("itinerary/output.txt")
 	if err != nil {
 		fmt.Println("Error creating output file:", err)
@@ -91,17 +91,6 @@ func outputCreate(lines []string) {
 	}
 	defer file.Close()
 
-	writer := bufio.NewWriter(file)
-
-	for _, line := range lines {
-		_, err := writer.WriteString(line + "\n")
-		if err != nil {
-			fmt.Println("Error writing to output file:", err)
-			return
-		}
-	}
-
-	writer.Flush()
 	fmt.Println("Output file created successfully")
 
 	cities()
