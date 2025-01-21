@@ -96,5 +96,5 @@ func outputCreate() {
 
 	fmt.Println("Output file created successfully")
 
-	cities()
+	outputContents()
 }

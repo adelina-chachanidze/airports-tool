@@ -3,19 +3,19 @@ Line 1Line 2
 Line 1Line 2
 Line 1
 Line 2
-#LAX to *##EGLL on D(2023-07-15T09:00-07:00)
+Los Angeles International Airport to *London Heathrow Airport on D(2023-07-15T09:00-07:00)
 Departure: T12(2023-07-15T09:00-07:00)
 Arrival: T24(2023-07-16T12:00Z)
 
 
 
-Your flight departs from #HAJ, and your destination is ##EDDW.
-(##EGHI) to          #CEG. on D(2023-07-15T09:00-07:00)
+Your flight departs from Hannover Airport, and your destination is Bremen Airport.
+(#El Gora AirportI) to          Hawarden Airport. on D(2023-07-15T09:00-07:00)
 Departure: T12(2023-07-15T09:00-07:00)
 Arrival: T24(2023-07-16T12:00Z)
 
-##WWK to #BIHN on D(2023-07-15T09:00-07:00)
-(*##WWK) to #BIHN... on D(2023-07-15T09:00-07:00)
+#Wewak International Airport to Eastern Sierra Regional AirportN on D(2023-07-15T09:00-07:00)
+(*#Wewak International Airport) to Eastern Sierra Regional AirportN... on D(2023-07-15T09:00-07:00)
 ##OOOO to #AAA on D(2023-08-15T09:00-07:00)
 
 D(2022-05-09T08:07Z)
