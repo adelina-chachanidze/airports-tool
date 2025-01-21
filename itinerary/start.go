@@ -85,7 +85,7 @@ func airpotsCheck() {
 
 	defer file.Close()
 
-	processAirportCodes()
+	airportCodes()
 }
 
 
