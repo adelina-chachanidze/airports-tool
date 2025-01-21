@@ -11,7 +11,7 @@ import (
 
 func airportCodes() {
 	// Step 1: Load the airport lookup CSV into a map
-	airportData := loadAirportData("itinerary/airport-lookup.csv")
+	airportData := loadAirportCodes("itinerary/airport-lookup.csv")
 
 	// Step 2: Open the input file
 	file, _ := os.Open("itinerary/input.txt")
@@ -59,7 +59,7 @@ func airportCodes() {
 }
 
 // Helper function to load airport data into a map
-func loadAirportData(filepath string) map[string]string {
+func loadAirportCodes(filepath string) map[string]string {
 	file, _ := os.Open(filepath)
 	defer file.Close()
 
