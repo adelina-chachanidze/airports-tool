@@ -91,6 +91,6 @@ func loadAirportDataFromCSV(filepath string) map[string]string {
 	}
 
 	fmt.Println("Processing csv")
-	time()
+	timeHandling()
 	return airportMap
 }

@@ -4,6 +4,6 @@ import (
 	"fmt"
 )
 
-func time() {
+func timeHandling() {
 	fmt.Println("Processing time")
 }

@@ -17,7 +17,7 @@ func Starting() {
 
 	inputCheck()
 	airpotsCheck()
-	outputCreate()
+	//outputCreate()
 }
 
 func inputCheck() []string {
@@ -84,9 +84,13 @@ func airpotsCheck() {
 	}
 
 	defer file.Close()
+
+	processAirportCodes()
 }
 
-func outputCreate() {
+
+
+/*func outputCreate() {
 	file, err := os.Create("itinerary/output.txt")
 	if err != nil {
 		fmt.Println("Error creating output file:", err)
@@ -94,7 +98,6 @@ func outputCreate() {
 	}
 	defer file.Close()
 
-	fmt.Println("Output file created successfully")
-
+	fmt.Println("Output file created")
 	processAirportCodes()
-}
+}*/
