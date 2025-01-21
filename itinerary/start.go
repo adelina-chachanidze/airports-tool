@@ -7,13 +7,21 @@ import (
 )
 
 func Starting() {
+	// Create output.txt at startup
+	outputFile, err := os.Create("itinerary/output.txt")
+	if err != nil {
+		fmt.Println("Error creating output file:", err)
+		return
+	}
+	defer outputFile.Close()
+
 	inputLines := inputCheck()
 	airpotsCheck()
 	outputCreate(inputLines)
 }
 
 func inputCheck() []string {
-	// Open the file named "testing", we need to write a path to it
+	// Open the file named "input.txt", we need to write a path to it
 	// file -- the file handle if successful
 	// err -- any error that occurred during the operation (or nil if successful)
 	file, err := os.Open("itinerary/input.txt")
