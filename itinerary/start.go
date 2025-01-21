@@ -103,4 +103,6 @@ func outputCreate(lines []string) {
 
 	writer.Flush()
 	fmt.Println("Output file created successfully")
+
+	cities()
 }
