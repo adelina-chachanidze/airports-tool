@@ -7,16 +7,16 @@ import (
 )
 
 func Starting() {
-	inputCheck()
+	inputLines := inputCheck()
 	airpotsCheck()
-	outputCreate()
+	outputCreate(inputLines)
 }
 
-func inputCheck() {
+func inputCheck() []string {
 	// Open the file named "testing", we need to write a path to it
 	// file -- the file handle if successful
 	// err -- any error that occurred during the operation (or nil if successful)
-	file, err := os.Open("itinerary/testing.txt")
+	file, err := os.Open("itinerary/input.txt")
 
 	//Error handling
 	if err != nil {
@@ -25,25 +25,27 @@ func inputCheck() {
 		} else {
 			fmt.Println("Error opening input file:", err)
 		}
-		return
+		return nil
 	}
+	defer file.Close()
 
-	//Read the file line by line and print each line
+	var lines []string
 	inputScanner := bufio.NewScanner(file)
 
 	//Check if the file is empty
 	if !inputScanner.Scan() {
 		fmt.Println("The input file is empty")
-		return
+		return nil
 	}
+
+	lines = append(lines, inputScanner.Text())
 
 	//Loop through the file line by line
 	for inputScanner.Scan() {
-		fmt.Println(inputScanner.Text())
-		// Returns the current line of text that the scanner has read as a string
-		// The text is returned as a string
-		// Part of the bufio package
+		lines = append(lines, inputScanner.Text())
 	}
+
+	return lines
 }
 
 func airpotsCheck() {
@@ -73,7 +75,7 @@ func airpotsCheck() {
 	defer file.Close()
 }
 
-func outputCreate() {
+func outputCreate(lines []string) {
 	file, err := os.Create("itinerary/output.txt")
 	if err != nil {
 		fmt.Println("Error creating output file:", err)
@@ -81,5 +83,16 @@ func outputCreate() {
 	}
 	defer file.Close()
 
+	writer := bufio.NewWriter(file)
+
+	for _, line := range lines {
+		_, err := writer.WriteString(line + "\n")
+		if err != nil {
+			fmt.Println("Error writing to output file:", err)
+			return
+		}
+	}
+
+	writer.Flush()
 	fmt.Println("Output file created successfully")
 }

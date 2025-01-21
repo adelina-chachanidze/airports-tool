@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	itinerary.Starting() 
+	itinerary.Starting()
 	// Calling the function from the itinerary package in start.go file
 }
