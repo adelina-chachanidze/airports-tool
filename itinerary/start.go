@@ -53,7 +53,10 @@ func inputCheck() []string {
 		lines = append(lines, inputScanner.Text())
 	}
 
+	fmt.Println("Input file found")
 	return lines
+
+	
 }
 
 func airpotsCheck() {
