@@ -1,16 +1,5 @@
-Flight Itinerary
-Line 1Line 2
-Line 1Line 2
-Line 1
-Line 2
-Los Angeles International Airport to *London Heathrow Airport on D(2023-07-15T09:00-07:00)
-Departure: T12(2023-07-15T09:00-07:00)
-Arrival: T24(2023-07-16T12:00Z)
-
-
-
 Your flight departs from Hannover Airport, and your destination is Bremen Airport.
-(#El Gora AirportI) to          Hawarden Airport. on D(2023-07-15T09:00-07:00)
+(Southampton Airport) to          Hawarden Airport. on D(2023-07-15T09:00-07:00)
 Departure: T12(2023-07-15T09:00-07:00)
 Arrival: T24(2023-07-16T12:00Z)
 
@@ -18,12 +7,14 @@ Arrival: T24(2023-07-16T12:00Z)
 (*#Wewak International Airport) to Eastern Sierra Regional AirportN... on D(2023-07-15T09:00-07:00)
 ##OOOO to #AAA on D(2023-08-15T09:00-07:00)
 
-D(2022-05-09T08:07Z)
-T12(2069-04-24T19:18-02:00)
-T12(2080-05-04T14:54Z)
-T12(1980-02-17T03:30+11:00)
-T12(2029-09-04T03:09Z)
-T24(2032-07-17T04:08+13:30)
-T24(2084-04-13T17:54Z)
-T24(2024-07-23T15:29-11:00)
-T24(2042-09-01T21:43Z)
+Los Angeles International Airport to London on D(2023-07-15T09:00-07:00)
+HelKuopio Airportlo
+
+
+#HKI Flight
+
+Your flight departs from Hannover Airport and your destination is Bremen Airport
+Your flight departs from #Hannover Airport, and your destination is #EDDW.
+
+Your flight departs from Hannover Airport, and your destination is Bremen Airport.
+(Southampton Airport) to          Hawarden Airport. on D(2023-07-15T09:00-07:00)

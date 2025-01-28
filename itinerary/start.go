@@ -56,7 +56,6 @@ func inputCheck() []string {
 	fmt.Println("Input file found")
 	return lines
 
-	
 }
 
 func airpotsCheck() {
@@ -83,12 +82,9 @@ func airpotsCheck() {
 		return
 	}
 
-	defer file.Close()
-
 	airportCodes()
+	defer file.Close()
 }
-
-
 
 /*func outputCreate() {
 	file, err := os.Create("itinerary/output.txt")
