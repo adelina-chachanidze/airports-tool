@@ -1,8 +1,15 @@
 IATA: # + 3 LETTERS
 ICAO: ## + 4 LETTERS
 
+
+
+
+
+
+
+
             correct, correct, doesnt exist, malformed
-IATA airports: #WMI, #CEG, #HKI, #SIJ
+IATA airports: #WMI,            #CEG, #HKI, #SIJ
 ICAO airports: ##AYMN, ##UBTT, ##HKII, ##BIHN
 
             correct, correct, doesnt exist, malformed

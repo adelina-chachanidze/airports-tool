@@ -1,18 +1,14 @@
-IATA: # + 3 LETTERS
-ICAO: ## + 4 LETTERS
+IATA airports: Modlin Airport, Hawarden Airport, #HKI, Siglufj����r����ur Airport
+ICAO airports: Mendi Airport, Zabrat Airport, ##HKII, Hornafj����r����ur Airport
 
             correct, correct, doesnt exist, malformed
-IATA airports: #WMI, #CEG, #HKI, #SIJ
-ICAO airports: ##AYMN, ##UBTT, ##HKII, ##BIHN
+IATA cities: Modlin, Hawarden, *#HKI, Siglufj����r����ur
+ICAO cities: Mendi, Zabrat, *##HKII, Hornafj����r����ur
 
-            correct, correct, doesnt exist, malformed
-IATA cities: *#WMI, *#CEG, *#HKI, *#SIJ
-ICAO cities: *##AYMN, *##UBTT, *##HKII, *##BIHN
+INCORRECT: #Modlin Airport, #UBTT, *##AYM, *#UBTT, CEG, AYMN, ##Modlin Airport, #Mendi Airport
 
-INCORRECT: ##WMI, #UBTT, *##AYM, *#UBTT, *##CEG, AYMN, ###WMI
+CORRECT AIRPORTS: Your flight form Guemar Airport to Robertson Airport is going to be delayed by 1 hour
+INCORRECT AIRPORTS: Your flight form #Guemar Airport to Hector International AirportS is going to be delayed by 1 hour
 
-CORRECT AIRPORTS: Your flight form #ELU to ##FARS is going to be delayed by 1 hour
-INCORRECT AIRPORTS: Your flight form ##ELU to #FARS is going to be delayed by 1 hour
-
-CORRECT CITIES: There're 3628km between *#ASE and *##FBMN 
-INCORRECT CITIES: There're 3628km between *##ASE and *#FBMN 
+CORRECT CITIES: There're 3628km between Aspen-Pitkin and Maun 
+INCORRECT CITIES: There're 3628km between *#Aspen-Pitkin Co/Sardy Field and LubumbashiN 
