@@ -9,7 +9,7 @@ ICAO airports: ##AYMN, ##UBTT, ##HKII, ##BIHN
 IATA cities: *#WMI, *#CEG, *#HKI, *#SIJ
 ICAO cities: *##AYMN, *##UBTT, *##HKII, *##BIHN
 
-INCORRECT: ##WMI, #UBTT, *##AYM, *#UBTT, CEG, AYMN, ###WMI, ###AYMN
+INCORRECT: ##WMI, #UBTT, *##AYM, *#UBTT, *##CEG, AYMN, ###WMI
 
 CORRECT AIRPORTS: Your flight form #ELU to ##FARS is going to be delayed by 1 hour
 INCORRECT AIRPORTS: Your flight form ##ELU to #FARS is going to be delayed by 1 hour

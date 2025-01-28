@@ -7,7 +7,23 @@ import (
 )
 
 func Starting() {
-	// Create output.txt at startup
+	// Check if output file already exists and remove error handling since we'll handle it differently
+	if _, err := os.Stat("itinerary/output.txt"); err == nil {
+		os.Remove("itinerary/output.txt")
+	}
+
+	// Check input file first
+	lines := inputCheck()
+	if lines == nil {
+		return // Don't create output file if input check fails
+	}
+
+	// Check airport lookup file
+	if !airpotsCheck() {
+		return // Don't create output file if airport check fails
+	}
+
+	// Only create output file if all checks pass
 	outputFile, err := os.Create("itinerary/output.txt")
 	if err != nil {
 		fmt.Println("Error creating output file:", err)
@@ -15,9 +31,16 @@ func Starting() {
 	}
 	defer outputFile.Close()
 
-	inputCheck()
-	airpotsCheck()
-	//outputCreate()
+	// Write to the output file
+	writer := bufio.NewWriter(outputFile)
+	for _, line := range lines {
+		_, err := writer.WriteString(line + "\n")
+		if err != nil {
+			fmt.Println("Error writing to output file:", err)
+			return
+		}
+	}
+	writer.Flush() // Don't forget to flush the buffer
 }
 
 func inputCheck() []string {
@@ -29,7 +52,7 @@ func inputCheck() []string {
 	//Error handling
 	if err != nil {
 		if os.IsNotExist(err) {
-			fmt.Println("Input file not found")
+			fmt.Println("Input not found")
 		} else {
 			fmt.Println("Error opening input file:", err)
 		}
@@ -55,20 +78,19 @@ func inputCheck() []string {
 
 	fmt.Println("Input file found")
 	return lines
-
 }
 
-func airpotsCheck() {
+func airpotsCheck() bool {
 	file, err := os.Open("itinerary/airport-lookup.csv")
-
 	if err != nil {
 		if os.IsNotExist(err) {
-			fmt.Println("Airport lookup file not found")
-			return
+			fmt.Println("Airport lookup not found")
+			return false
 		}
 		fmt.Println("Error opening file:", err)
-		return
+		return false
 	}
+	defer file.Close()
 
 	// for testing, DELETE LATER
 	fmt.Println("Airport lookup file found")
@@ -79,11 +101,50 @@ func airpotsCheck() {
 	// Scanner returns true if the next token is available, false otherwise
 	if !airportsScanner.Scan() {
 		fmt.Println("Airport lookup is empty")
-		return
+		return false
+	}
+
+	// Check if header row has correct columns
+	expectedHeaders := []string{"name", "iso_country", "municipality", "icao_code", "iata_code", "coordinates"}
+	headers := splitCSVLine(airportsScanner.Text())
+
+	if len(headers) != len(expectedHeaders) {
+		fmt.Println("Airport lookup malformed")
+		return false
+	}
+
+	for i, header := range headers {
+		if header == "" || header != expectedHeaders[i] {
+			fmt.Println("Airport lookup malformed")
+			return false
+		}
 	}
 
 	airportCodes()
-	defer file.Close()
+	return true
+}
+
+// Helper function to split CSV line considering possible commas within quoted fields
+func splitCSVLine(line string) []string {
+	var result []string
+	var current string
+	inQuotes := false
+
+	for _, char := range line {
+		switch char {
+		case '"':
+			inQuotes = !inQuotes
+		case ',':
+			if !inQuotes {
+				result = append(result, current)
+				current = ""
+				continue
+			}
+		}
+		current += string(char)
+	}
+	result = append(result, current)
+	return result
 }
 
 /*func outputCreate() {
