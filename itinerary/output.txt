@@ -1,20 +1,12 @@
-Your flight departs from Hannover Airport, and your destination is Bremen Airport.
-(Southampton Airport) to          Hawarden Airport. on D(2023-07-15T09:00-07:00)
-Departure: T12(2023-07-15T09:00-07:00)
-Arrival: T24(2023-07-16T12:00Z)
-
-#Wewak International Airport to Eastern Sierra Regional AirportN on D(2023-07-15T09:00-07:00)
-(*#Wewak International Airport) to Eastern Sierra Regional AirportN... on D(2023-07-15T09:00-07:00)
-##OOOO to #AAA on D(2023-08-15T09:00-07:00)
-
-Los Angeles International Airport to London on D(2023-07-15T09:00-07:00)
-HelKuopio Airportlo
+IATA: # + 3 LETTERS
+ICAO: ## + 4 LETTERS
 
 
-#HKI Flight
+IATA airports: Modlin Airport, Hawarden Airport, #HKI, Siglufj����r����ur Airport
+ICAO airports: Mendi Airport, Zabrat Airport, ##HKII, Hornafj����r����ur Airport
 
-Your flight departs from Hannover Airport and your destination is Bremen Airport
-Your flight departs from #Hannover Airport, and your destination is #EDDW.
 
-Your flight departs from Hannover Airport, and your destination is Bremen Airport.
-(Southampton Airport) to          Hawarden Airport. on D(2023-07-15T09:00-07:00)
+IATA cities: Modlin, Hawarden, *#HKI, Siglufj����r����ur
+ICAO cities: Mendi, Zabrat, *##HKII, Hornafj����r����ur
+
+INCORRECT: #Modlin Airport, #UBTT, *##AYM, *#UBTT
