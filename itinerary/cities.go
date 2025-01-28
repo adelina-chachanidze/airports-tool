@@ -25,10 +25,9 @@ func airportCodes() {
 	scanner := bufio.NewScanner(file)
 
 	// Step 4: Regex patterns for different codes
-	
-	icaoRegex := regexp.MustCompile(`##(\w{4})`) 
+	icaoRegex := regexp.MustCompile(`##(\w{4})`)
+	cityIcaoRegex := regexp.MustCompile(`\*(##\w{4})`)
 	iataRegex := regexp.MustCompile(`#(\w{3})`)
-	cityIcaoRegex := regexp.MustCompile(`\*(##\w{4})`)     
 	cityIataRegex := regexp.MustCompile(`\*(#\w{3})`)
 
 	// Step 5: Process each line of the input file

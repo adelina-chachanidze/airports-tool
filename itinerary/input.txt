@@ -1,12 +1,18 @@
 IATA: # + 3 LETTERS
 ICAO: ## + 4 LETTERS
 
-
+            correct, correct, doesnt exist, malformed
 IATA airports: #WMI, #CEG, #HKI, #SIJ
 ICAO airports: ##AYMN, ##UBTT, ##HKII, ##BIHN
 
-
+            correct, correct, doesnt exist, malformed
 IATA cities: *#WMI, *#CEG, *#HKI, *#SIJ
 ICAO cities: *##AYMN, *##UBTT, *##HKII, *##BIHN
 
-INCORRECT: ##WMI, #UBTT, *##AYM, *#UBTT
+INCORRECT: ##WMI, #UBTT, *##AYM, *#UBTT, CEG, AYMN, ###WMI, ###AYMN
+
+CORRECT AIRPORTS: Your flight form #ELU to ##FARS is going to be delayed by 1 hour
+INCORRECT AIRPORTS: Your flight form ##ELU to #FARS is going to be delayed by 1 hour
+
+CORRECT CITIES: There're 3628km between *#ASE and *##FBMN 
+INCORRECT CITIES: There're 3628km between *##ASE and *#FBMN 
