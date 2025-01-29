@@ -1,4 +1,6 @@
-package main
+package itinerary
+
+/*package main
 
 import (
 	"encoding/csv"
@@ -132,3 +134,4 @@ func getCityFromAirport(airportName string) string {
 	}
 	return ""
 }
+*/
