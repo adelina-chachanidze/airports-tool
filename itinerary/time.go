@@ -1,142 +1,94 @@
 package itinerary
 
 import (
+	"bufio"
 	"fmt"
 	"os"
-	//"regexp"
-	//"strings"
+	"regexp"
+	"strings"
 	"time"
-	"bufio"
 )
 
+func formatDates() {
+	// Open the input and output files
+	input, _ := os.ReadFile("itinerary/output.txt")
+	lines := strings.Split(string(input), "\n")
 
-func formatDate() error {
-	// Open the input file
-	inputFile, err := os.Open("itinerary/input.txt")
-	if err != nil {
-		return fmt.Errorf("error opening input file: %w", err)
-	}
-	defer inputFile.Close()
-
-	// Open the existing output file in write mode
-	outputFile, err := os.OpenFile("itinerary/output.txt", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
-	if err != nil {
-		return fmt.Errorf("error opening output file: %w", err)
-	}
+	outputFile, _ := os.Create("itinerary/output.txt")
 	defer outputFile.Close()
+	writer := bufio.NewWriter(outputFile)
 
-	// Use a scanner to read the input file line by line
-	scanner := bufio.NewScanner(inputFile)
+	fmt.Println("Testing formatDates")
 
-	// Process each line
-	for scanner.Scan() {
-		line := scanner.Text()
+	// Regex patterns for times
+	time12Regex := regexp.MustCompile(`T12\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}[+-]\d{2}:00|)\)`)
+	time24Regex := regexp.MustCompile(`T24\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}[+-]\d{2}:00|)\)`)
 
-		// Parse the date string using the format D(yyyy-mm-dd)
-		layout := "D(2006-01-02)"
-		t, err := time.Parse(layout, line)
-		if err != nil {
-			return fmt.Errorf("error formatting date '%s': %w", line, err)
-		}
+	for _, line := range lines {
+		// Process 12-hour times
+		line = time12Regex.ReplaceAllStringFunc(line, func(match string) string {
+			if timeStr := extractAndFormat12HourTime(match[4 : len(match)-1]); timeStr != "" {
+				return timeStr
+			}
+			return match
+		})
 
-		// Format the date into "dd MMM yyyy"
-		formattedDate := t.Format("02 Jan 2006")
+		// Process 24-hour times
+		line = time24Regex.ReplaceAllStringFunc(line, func(match string) string {
+			if timeStr := extractAndFormat24HourTime(match[4 : len(match)-1]); timeStr != "" {
+				return timeStr
+			}
+			return match
+		})
 
-		// Write the formatted date to the output file
-		_, err = outputFile.WriteString(formattedDate + "\n")
-		if err != nil {
-			return fmt.Errorf("error writing to output file: %w", err)
-		}
+		writer.WriteString(line + "\n")
 	}
 
-	// Check for scanning errors
-	if err := scanner.Err(); err != nil {
-		return fmt.Errorf("error reading input file: %w", err)
-	}
-
-	return nil
+	writer.Flush()
 }
 
-/*func formatDate() (string, error) {
-	content, err := os.ReadFile("input.txt")
+func extractAndFormat12HourTime(isoDate string) string {
+	if isoDate == "" {
+		return ""
+	}
+
+	t, err := time.Parse("2006-01-02T15:04-07:00", isoDate)
 	if err != nil {
-		return "", fmt.Errorf("error reading input file: %v", err)
+		return ""
 	}
 
-	input := strings.TrimSpace(string(content))
-	// Parse the date string using the format D(yyyy-mm-dd)
-	layout := "D(2006-01-02)"
-	t, err := time.Parse(layout, input)
+	hour := t.Hour()
+	ampm := "AM"
+	if hour >= 12 {
+		ampm = "PM"
+		if hour > 12 {
+			hour -= 12
+		}
+	}
+	if hour == 0 {
+		hour = 12
+	}
+
+	_, offset := t.Zone()
+	offsetHours := offset / 3600
+	offsetStr := fmt.Sprintf("%+03d:00", offsetHours)
+
+	return fmt.Sprintf("%d:%02d%s (%s)", hour, t.Minute(), ampm, offsetStr)
+}
+
+func extractAndFormat24HourTime(isoDate string) string {
+	if isoDate == "" {
+		return ""
+	}
+
+	t, err := time.Parse("2006-01-02T15:04-07:00", isoDate)
 	if err != nil {
-		return "", err
+		return ""
 	}
 
-	// Format the date into "dd MMM yyyy"
-	return t.Format("02 Jan 2006"), nil
+	_, offset := t.Zone()
+	offsetHours := offset / 3600
+	offsetStr := fmt.Sprintf("%+03d:00", offsetHours)
 
-
-}*/
-
-/*func formatDateTime() (string, error) {
-	// Read from input.txt
-	content, err := os.ReadFile("input.txt")
-	if err != nil {
-		return "", fmt.Errorf("error reading input file: %v", err)
-	}
-
-	input := strings.TrimSpace(string(content))
-
-	// Regular expressions for validation
-	datePattern := regexp.MustCompile(`^D\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2}))\)$`)
-	time12Pattern := regexp.MustCompile(`^T12\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2}))\)$`)
-	time24Pattern := regexp.MustCompile(`^T24\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2}))\)$`)
-
-	var (
-		formatType string
-		dtString   string
-	)
-
-	// Check which pattern matches and extract the datetime string
-	switch {
-	case datePattern.MatchString(input):
-		formatType = "date"
-		dtString = datePattern.FindStringSubmatch(input)[1]
-	case time12Pattern.MatchString(input):
-		formatType = "time12"
-		dtString = time12Pattern.FindStringSubmatch(input)[1]
-	case time24Pattern.MatchString(input):
-		formatType = "time24"
-		dtString = time24Pattern.FindStringSubmatch(input)[1]
-	default:
-		return input, nil
-	}
-
-	// Handle 'Z' timezone
-	if strings.HasSuffix(dtString, "Z") {
-		dtString = strings.TrimSuffix(dtString, "Z") + "+00:00"
-	}
-
-	// Parse the datetime
-	dt, err := time.Parse("2006-01-02T15:04-07:00", dtString)
-	if err != nil {
-		return input, nil
-	}
-
-	// Extract timezone offset
-	offset := dt.Format("-07:00")
-	if offset == "+00:00" {
-		offset = "Z"
-	}
-
-	// Format according to type
-	switch formatType {
-	case "date":
-		return dt.Format("02 Jan 2006"), nil
-	case "time12":
-		return fmt.Sprintf("%s (%s)", dt.Format("03:04PM"), offset), nil
-	case "time24":
-		return fmt.Sprintf("%s (%s)", dt.Format("15:04"), offset), nil
-	default:
-		return input, nil
-	}
-}*/
+	return fmt.Sprintf("%02d:%02d (%s)", t.Hour(), t.Minute(), offsetStr)
+}

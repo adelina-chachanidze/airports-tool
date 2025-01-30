@@ -7,6 +7,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+
 )
 
 func airportCodes() {
@@ -83,6 +84,8 @@ func airportCodes() {
 	writer.Flush()
 	fmt.Println("Output file created with replacements")
 
+	formatDates()
+
 	outputFormatting()
 }
 
@@ -130,5 +133,5 @@ func getCityFromAirport(airportName string) string {
 		return parts[0] // Return the first word as the city name
 	}
 	return ""
-	
 }
+
