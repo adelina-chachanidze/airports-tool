@@ -84,7 +84,7 @@ func airportCodes() {
 	writer.Flush()
 	fmt.Println("Output file created with replacements")
 
-	formatDates()
+	formatTimes()
 
 	outputFormatting()
 }

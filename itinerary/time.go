@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func formatDates() {
+func formatTimes() {
 	// Open the input and output files
 	input, _ := os.ReadFile("itinerary/output.txt")
 	lines := strings.Split(string(input), "\n")
@@ -18,13 +18,12 @@ func formatDates() {
 	defer outputFile.Close()
 	writer := bufio.NewWriter(outputFile)
 
-	fmt.Println("Testing formatDates")
-
-	// Regex patterns for times
+	// Regex patterns for times and dates
 	time12Regex := regexp.MustCompile(`T12\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}[+-]\d{2}:00|)\)`)
 	time24Regex := regexp.MustCompile(`T24\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}[+-]\d{2}:00|)\)`)
 
 	for _, line := range lines {
+
 		// Process 12-hour times
 		line = time12Regex.ReplaceAllStringFunc(line, func(match string) string {
 			if timeStr := extractAndFormat12HourTime(match[4 : len(match)-1]); timeStr != "" {
@@ -44,6 +43,7 @@ func formatDates() {
 		writer.WriteString(line + "\n")
 	}
 
+	formatDates()
 	writer.Flush()
 }
 

@@ -1,3 +1,5 @@
+hello
+
 IATA: # + 3 LETTERS
 ICAO: ## + 4 LETTERS
 
@@ -17,7 +19,7 @@ INCORRECT AIRPORTS: Your flight form #Guemar Airport to Hector International Air
 CORRECT CITIES: There're 3628km between Aspen-Pitkin and Maun
 INCORRECT CITIES: There're 3628km between *#Aspen-Pitkin Co/Sardy Field and LubumbashiN
 
-1. D(2022-05-09T08:07Z)
+D(2022-05-09T08:07)
 2. 7:18PM (-02:00)
 3. T12(2080-05-04T14:54Z)
 4. 3:30AM (+11:00)
