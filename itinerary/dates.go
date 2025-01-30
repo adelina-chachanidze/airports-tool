@@ -10,7 +10,15 @@ import (
 )
 
 func main() {
-	// Write the formatted dates to output.txt instead of terminal
+	// Check if input.txt exists
+	if _, err := os.Stat("input.txt"); err != nil {
+		fmt.Println("input.txt does not exist")
+		return
+	}
+
+	fmt.Println("input.txt exists")
+
+	// Write the formatted dates to output.txt
 	output := formatDates()
 	err := os.WriteFile("output.txt", []byte(output), 0644)
 	if err != nil {
