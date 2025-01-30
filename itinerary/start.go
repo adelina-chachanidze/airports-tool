@@ -7,6 +7,13 @@ import (
 )
 
 func Starting() {
+	// Check for -h flag
+	if len(os.Args) > 1 && os.Args[1] == "-h" {
+		fmt.Println("itinerary usage:")
+		fmt.Println("go run . ./input.txt ./output.txt ./airport-lookup.csv")
+		return
+	}
+
 	// Create output.txt at startup
 	outputFile, err := os.Create("itinerary/output.txt")
 	if err != nil {
@@ -15,85 +22,63 @@ func Starting() {
 	}
 	defer outputFile.Close()
 
-	inputCheck()
-	airpotsCheck()
-	//outputCreate()
+	// Check input and airport lookup files
+	if !inputCheck() {
+		return
+	}
+	if !airportsCheck() {
+		return
+	}
+
+	// Continue only if both checks pass
+	// outputCreate()
+	airportCodes()
 }
 
-func inputCheck() []string {
-	// Open the file named "input.txt", we need to write a path to it
-	// file -- the file handle if successful
-	// err -- any error that occurred during the operation (or nil if successful)
+func inputCheck() bool {
 	file, err := os.Open("itinerary/input.txt")
-
-	//Error handling
 	if err != nil {
 		if os.IsNotExist(err) {
 			fmt.Println("Input file not found")
 		} else {
 			fmt.Println("Error opening input file:", err)
 		}
-		return nil
+		return false
 	}
 	defer file.Close()
 
-	var lines []string
 	inputScanner := bufio.NewScanner(file)
 
-	//Check if the file is empty
+	// Check if the file is empty
 	if !inputScanner.Scan() {
 		fmt.Println("The input file is empty")
-		return nil
-	}
-
-	lines = append(lines, inputScanner.Text())
-
-	//Loop through the file line by line
-	for inputScanner.Scan() {
-		lines = append(lines, inputScanner.Text())
+		return false
 	}
 
 	fmt.Println("Input file found")
-	return lines
-
+	return true
 }
 
-func airpotsCheck() {
+func airportsCheck() bool {
 	file, err := os.Open("itinerary/airport-lookup.csv")
-
 	if err != nil {
 		if os.IsNotExist(err) {
 			fmt.Println("Airport lookup file not found")
-			return
+		} else {
+			fmt.Println("Error opening airport lookup file:", err)
 		}
-		fmt.Println("Error opening file:", err)
-		return
+		return false
 	}
+	defer file.Close()
 
-	// for testing, DELETE LATER
-	fmt.Println("Airport lookup file found")
-
-	// bufio is connected to the file that was opened by os.Open()
 	airportsScanner := bufio.NewScanner(file)
 
-	// Scanner returns true if the next token is available, false otherwise
+	// Check if the file is empty
 	if !airportsScanner.Scan() {
-		fmt.Println("Airport lookup is empty")
-		return
+		fmt.Println("Airport lookup file is empty")
+		return false
 	}
 
-	airportCodes()
-	defer file.Close()
+	fmt.Println("Airport lookup file found")
+	return true
 }
-
-/*func outputCreate() {
-	file, err := os.Create("itinerary/output.txt")
-	if err != nil {
-		fmt.Println("Error creating output file:", err)
-		return
-	}
-	defer file.Close()
-
-	fmt.Println("Output file created")
-	processAirportCodes()
-}*/
