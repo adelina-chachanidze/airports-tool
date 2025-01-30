@@ -1,16 +1,22 @@
-package itinerary
+package main
 
 import (
 	"bufio"
 	"fmt"
+	"os"
 	"regexp"
 	"strings"
 	"time"
 )
 
 func main() {
-	// Print the formatted dates to terminal
-	fmt.Println(formatDates())
+	// Write the formatted dates to output.txt instead of terminal
+	output := formatDates()
+	err := os.WriteFile("output.txt", []byte(output), 0644)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+		return
+	}
 }
 
 func formatDates() string {
