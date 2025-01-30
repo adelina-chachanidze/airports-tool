@@ -20,7 +20,19 @@ func main() {
 
 	// Write the formatted dates to output.txt
 	output := formatDates()
-	err := os.WriteFile("output.txt", []byte(output), 0644)
+
+	// Read the original input file
+	inputContent, err := os.ReadFile("input.txt")
+	if err != nil {
+		fmt.Println("Error reading input file:", err)
+		return
+	}
+
+	// Combine formatted output with original input
+	fullOutput := output + "\n\n" + string(inputContent)
+
+	// Write combined content to output.txt
+	err = os.WriteFile("output.txt", []byte(fullOutput), 0644)
 	if err != nil {
 		fmt.Println("Error writing to file:", err)
 		return
