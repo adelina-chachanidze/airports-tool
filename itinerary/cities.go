@@ -82,6 +82,8 @@ func airportCodes() {
 
 	writer.Flush()
 	fmt.Println("Output file created with replacements")
+
+	outputFormatting()
 }
 
 // Helper function to load airport data into a map
@@ -128,4 +130,5 @@ func getCityFromAirport(airportName string) string {
 		return parts[0] // Return the first word as the city name
 	}
 	return ""
+	
 }

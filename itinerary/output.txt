@@ -1,18 +1,11 @@
 IATA: # + 3 LETTERS
 ICAO: ## + 4 LETTERS
 
-
-
-
-
-
-
-
-            correct, correct, doesnt exist, malformed
-IATA airports: Modlin Airport,            Hawarden Airport, #HKI, Siglufj����r����ur Airport
+correct, correct, doesnt exist, malformed
+IATA airports: Modlin Airport, Hawarden Airport, #HKI, Siglufj����r����ur Airport
 ICAO airports: Mendi Airport, Zabrat Airport, ##HKII, Hornafj����r����ur Airport
 
-            correct, correct, doesnt exist, malformed
+correct, correct, doesnt exist, malformed
 IATA cities: Modlin, Hawarden, *#HKI, Siglufj����r����ur
 ICAO cities: Mendi, Zabrat, *##HKII, Hornafj����r����ur
 
@@ -21,5 +14,5 @@ INCORRECT: #Modlin Airport, #UBTT, *##AYM, *#UBTT, *#Hawarden Airport, AYMN, ##M
 CORRECT AIRPORTS: Your flight form Guemar Airport to Robertson Airport is going to be delayed by 1 hour
 INCORRECT AIRPORTS: Your flight form #Guemar Airport to Hector International AirportS is going to be delayed by 1 hour
 
-CORRECT CITIES: There're 3628km between Aspen-Pitkin and Maun 
-INCORRECT CITIES: There're 3628km between *#Aspen-Pitkin Co/Sardy Field and LubumbashiN 
+CORRECT CITIES: There're 3628km between Aspen-Pitkin and Maun
+INCORRECT CITIES: There're 3628km between *#Aspen-Pitkin Co/Sardy Field and LubumbashiN
