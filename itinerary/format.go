@@ -65,8 +65,11 @@ func userErrors() {
 	var errorLines []int
 
 	for scanner.Scan() {
+		line := scanner.Text()
 		lineNumber++
-		if strings.Contains(scanner.Text(), "#") {
+
+		// Check for '#' or non-ASCII characters
+		if strings.Contains(line, "#") || containsNonASCII(line) {
 			errorLines = append(errorLines, lineNumber)
 		}
 	}
@@ -76,7 +79,16 @@ func userErrors() {
 		for i, line := range errorLines {
 			numbers[i] = fmt.Sprintf("%d", line)
 		}
-		fmt.Printf("\033[33mPossible error on line(s) %s. Please check your input file.\033[0m\n",
+		fmt.Printf("\033[33mPossible errors were detected on line(s) %s in the output file. Please check if formatting is correct in the input file.\033[0m\n",
 			strings.Join(numbers, ","))
 	}
+}
+
+func containsNonASCII(s string) bool {
+	for _, r := range s {
+		if r > 127 {
+			return true
+		}
+	}
+	return false
 }
