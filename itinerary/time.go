@@ -50,16 +50,16 @@ func formatTimes() {
 func getTimeEntries(lines []string) []string {
 	var timeEntries []string
 	for _, line := range lines {
-		if strings.HasPrefix(line, "1. ") || 
-		   strings.HasPrefix(line, "2. ") ||
-		   strings.HasPrefix(line, "3. ") ||
-		   strings.HasPrefix(line, "4. ") ||
-		   strings.HasPrefix(line, "5. ") ||
-		   strings.HasPrefix(line, "6. ") ||
-		   strings.HasPrefix(line, "7. ") ||
-		   strings.HasPrefix(line, "8. ") ||
-		   strings.HasPrefix(line, "9. ") {
-			
+		if strings.HasPrefix(line, "1. ") ||
+			strings.HasPrefix(line, "2. ") ||
+			strings.HasPrefix(line, "3. ") ||
+			strings.HasPrefix(line, "4. ") ||
+			strings.HasPrefix(line, "5. ") ||
+			strings.HasPrefix(line, "6. ") ||
+			strings.HasPrefix(line, "7. ") ||
+			strings.HasPrefix(line, "8. ") ||
+			strings.HasPrefix(line, "9. ") {
+
 			line = processTimeFormats(line)
 			timeEntries = append(timeEntries, line)
 		}
