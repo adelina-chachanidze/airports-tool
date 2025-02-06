@@ -14,20 +14,24 @@ func Starting() {
 		return
 	}
 
+	if inputCheck() && airportsCheck() {
+		createOutputFile()
+	}
+
+	airportCodes()
+	outputFormatting()
+}
+
+func createOutputFile() {
 	outputFile, err := os.Create("itinerary/output.txt")
 	if err != nil {
 		fmt.Println("Error creating output file:", err)
 		return
 	}
 	defer outputFile.Close()
-
-	inputCheck()
-	airportsCheck()
-
-	airportCodes()
 }
 
-func inputCheck() {
+func inputCheck() bool {
 	file, err := os.Open("itinerary/input.txt")
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -35,7 +39,7 @@ func inputCheck() {
 		} else {
 			fmt.Println("Error opening input file:", err)
 		}
-		return
+		return false
 	}
 	defer file.Close()
 
@@ -44,14 +48,14 @@ func inputCheck() {
 	// Check if the file is empty
 	if !inputScanner.Scan() {
 		fmt.Println("The input file is empty")
-		return 
+		return false
 	}
 
 	fmt.Println("Input file found successfully")
-	return 
+	return true
 }
 
-func airportsCheck() {
+func airportsCheck() bool {
 	file, err := os.Open("itinerary/airport-lookup.csv")
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -59,7 +63,7 @@ func airportsCheck() {
 		} else {
 			fmt.Println("Error opening airport lookup file:", err)
 		}
-		return 
+		return false
 	}
 	defer file.Close()
 
@@ -68,9 +72,9 @@ func airportsCheck() {
 	// Skip header row (first line)
 	if !airportsScanner.Scan() {
 		fmt.Println("Airport lookup file is empty")
-		return 
+		return false
 	}
 
 	fmt.Println("Airport lookup file found successfully")
-	return 
+	return true
 }

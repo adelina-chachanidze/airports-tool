@@ -10,27 +10,23 @@ import (
 )
 
 func airportCodes() {
-	// Step 1: Load the airport lookup CSV into a map
+
 	airportData := loadAirportCodes("itinerary/airport-lookup.csv")
 
-	// Step 2: Open the input file
 	file, _ := os.Open("itinerary/input.txt")
 	defer file.Close()
 
-	// Step 3: Open the output file in append mode
-	outputFile, _ := os.OpenFile("itinerary/output.txt", os.O_APPEND|os.O_WRONLY, 0644)
+	outputFile, _ := os.OpenFile("itinerary/output.txt", os.O_WRONLY|os.O_TRUNC, 0644)
 	defer outputFile.Close()
 
 	writer := bufio.NewWriter(outputFile)
 	scanner := bufio.NewScanner(file)
 
-	// Step 4: Regex patterns for different codes
 	icaoRegex := regexp.MustCompile(`\#\#(\w{4})\b`)
 	cityIcaoRegex := regexp.MustCompile(`\*(##\w{4})`)
 	iataRegex := regexp.MustCompile(`(^|[^#])#(\w{3})\b`)
 	cityIataRegex := regexp.MustCompile(`\s\*#(\w{3})\b`)
 
-	// Step 5: Process each line of the input file
 	for scanner.Scan() {
 		line := scanner.Text()
 
@@ -81,11 +77,8 @@ func airportCodes() {
 	}
 
 	writer.Flush()
-	fmt.Println("Output file created with replacements")
 
 	formatTimes()
-
-	outputFormatting()
 }
 
 // Helper function to load airport data into a map

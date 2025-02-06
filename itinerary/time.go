@@ -10,57 +10,98 @@ import (
 )
 
 func formatTimes() {
-	// Open the input and output files
-	input, _ := os.ReadFile("itinerary/output.txt")
+	input, err := os.ReadFile("itinerary/output.txt")
+	if err != nil {
+		fmt.Println("Error reading output file:", err)
+		return
+	}
 	lines := strings.Split(string(input), "\n")
 
-	outputFile, _ := os.OpenFile("itinerary/output.txt", os.O_WRONLY, 0644)
+	var processedLines []string
+	seenTimeSection := false
+
+	for _, line := range lines {
+		if strings.HasPrefix(line, "1. D(") || strings.HasPrefix(line, "1. T") {
+			seenTimeSection = true
+			break
+		}
+		if !seenTimeSection {
+			processedLines = append(processedLines, line)
+		}
+	}
+
+	timeLines := getTimeEntries(lines)
+	processedLines = append(processedLines, timeLines...)
+
+	outputFile, err := os.Create("itinerary/output.txt")
+	if err != nil {
+		fmt.Println("Error opening output file:", err)
+		return
+	}
 	defer outputFile.Close()
 
 	writer := bufio.NewWriter(outputFile)
+	for _, line := range processedLines {
+		writer.WriteString(line + "\n")
+	}
+	writer.Flush()
+}
 
-	// Regex patterns for times and dates
+func getTimeEntries(lines []string) []string {
+	var timeEntries []string
+	for _, line := range lines {
+		if strings.HasPrefix(line, "1. ") || 
+		   strings.HasPrefix(line, "2. ") ||
+		   strings.HasPrefix(line, "3. ") ||
+		   strings.HasPrefix(line, "4. ") ||
+		   strings.HasPrefix(line, "5. ") ||
+		   strings.HasPrefix(line, "6. ") ||
+		   strings.HasPrefix(line, "7. ") ||
+		   strings.HasPrefix(line, "8. ") ||
+		   strings.HasPrefix(line, "9. ") {
+			
+			line = processTimeFormats(line)
+			timeEntries = append(timeEntries, line)
+		}
+	}
+	return timeEntries
+}
+
+func processTimeFormats(line string) string {
 	time12Regex := regexp.MustCompile(`T12\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}[+-]\d{2}:00)\)`)
 	zulu12Regex := regexp.MustCompile(`T12\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)\)`)
 	time24Regex := regexp.MustCompile(`T24\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}[+-]\d{2}:00)\)`)
 	zulu24Regex := regexp.MustCompile(`T24\((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)\)`)
 
-	for _, line := range lines {
-		// Process 12-hour offset times
-		line = time12Regex.ReplaceAllStringFunc(line, func(match string) string {
-			if timeStr := extractAndFormat12HourTime(match[4 : len(match)-1]); timeStr != "" {
-				return timeStr
-			}
-			return match
-		})
+	line = time12Regex.ReplaceAllStringFunc(line, func(match string) string {
+		if timeStr := extractAndFormat12HourTime(match[4 : len(match)-1]); timeStr != "" {
+			return timeStr
+		}
+		return match
+	})
 
-		// Process 12-hour Zulu times
-		line = zulu12Regex.ReplaceAllStringFunc(line, func(match string) string {
-			if timeStr := extractAndFormat12HourTime(match[4 : len(match)-1]); timeStr != "" {
-				return timeStr
-			}
-			return match
-		})
+	line = zulu12Regex.ReplaceAllStringFunc(line, func(match string) string {
+		if timeStr := extractAndFormat12HourTime(match[4 : len(match)-1]); timeStr != "" {
+			return timeStr
+		}
+		return match
+	})
 
-		// Process 24-hour offset times
-		line = time24Regex.ReplaceAllStringFunc(line, func(match string) string {
-			if timeStr := extractAndFormat24HourTime(match[4 : len(match)-1]); timeStr != "" {
-				return timeStr
-			}
-			return match
-		})
+	line = time24Regex.ReplaceAllStringFunc(line, func(match string) string {
+		if timeStr := extractAndFormat24HourTime(match[4 : len(match)-1]); timeStr != "" {
+			return timeStr
+		}
+		return match
+	})
 
-		// Process 24-hour Zulu times
-		line = zulu24Regex.ReplaceAllStringFunc(line, func(match string) string {
-			if timeStr := extractAndFormat24HourTime(match[4 : len(match)-1]); timeStr != "" {
-				return timeStr
-			}
-			return match
-		})
+	line = zulu24Regex.ReplaceAllStringFunc(line, func(match string) string {
+		if timeStr := extractAndFormat24HourTime(match[4 : len(match)-1]); timeStr != "" {
+			return timeStr
+		}
+		return match
+	})
 
-		writer.WriteString(line + "\n")
-	}
-	writer.Flush()
+	return line
 }
 
 // Convert ISO date to 12-hour format with AM/PM notation
