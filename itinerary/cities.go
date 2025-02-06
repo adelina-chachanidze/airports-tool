@@ -7,7 +7,6 @@ import (
 	"os"
 	"regexp"
 	"strings"
-
 )
 
 func airportCodes() {
@@ -18,8 +17,8 @@ func airportCodes() {
 	file, _ := os.Open("itinerary/input.txt")
 	defer file.Close()
 
-	// Step 3: Create the output file
-	outputFile, _ := os.Create("itinerary/output.txt")
+	// Step 3: Open the output file in append mode
+	outputFile, _ := os.OpenFile("itinerary/output.txt", os.O_APPEND|os.O_WRONLY, 0644)
 	defer outputFile.Close()
 
 	writer := bufio.NewWriter(outputFile)
@@ -30,7 +29,6 @@ func airportCodes() {
 	cityIcaoRegex := regexp.MustCompile(`\*(##\w{4})`)
 	iataRegex := regexp.MustCompile(`(^|[^#])#(\w{3})\b`)
 	cityIataRegex := regexp.MustCompile(`\s\*#(\w{3})\b`)
-
 
 	// Step 5: Process each line of the input file
 	for scanner.Scan() {
@@ -135,4 +133,3 @@ func getCityFromAirport(airportName string) string {
 	}
 	return ""
 }
-

@@ -14,8 +14,9 @@ func formatTimes() {
 	input, _ := os.ReadFile("itinerary/output.txt")
 	lines := strings.Split(string(input), "\n")
 
-	outputFile, _ := os.Create("itinerary/output.txt")
+	outputFile, _ := os.OpenFile("itinerary/output.txt", os.O_WRONLY, 0644)
 	defer outputFile.Close()
+
 	writer := bufio.NewWriter(outputFile)
 
 	// Regex patterns for times and dates
@@ -59,8 +60,6 @@ func formatTimes() {
 
 		writer.WriteString(line + "\n")
 	}
-
-	formatDates()
 	writer.Flush()
 }
 

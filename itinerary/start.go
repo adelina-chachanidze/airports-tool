@@ -14,7 +14,6 @@ func Starting() {
 		return
 	}
 
-	// Create output.txt at startup
 	outputFile, err := os.Create("itinerary/output.txt")
 	if err != nil {
 		fmt.Println("Error creating output file:", err)
@@ -22,20 +21,13 @@ func Starting() {
 	}
 	defer outputFile.Close()
 
-	// Check input and airport lookup files
-	if !inputCheck() {
-		return
-	}
-	if !airportsCheck() {
-		return
-	}
+	inputCheck()
+	airportsCheck()
 
-	// Continue only if both checks pass
-	// outputCreate()
 	airportCodes()
 }
 
-func inputCheck() bool {
+func inputCheck() {
 	file, err := os.Open("itinerary/input.txt")
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -43,7 +35,7 @@ func inputCheck() bool {
 		} else {
 			fmt.Println("Error opening input file:", err)
 		}
-		return false
+		return
 	}
 	defer file.Close()
 
@@ -52,14 +44,14 @@ func inputCheck() bool {
 	// Check if the file is empty
 	if !inputScanner.Scan() {
 		fmt.Println("The input file is empty")
-		return false
+		return 
 	}
 
-	fmt.Println("Input file found")
-	return true
+	fmt.Println("Input file found successfully")
+	return 
 }
 
-func airportsCheck() bool {
+func airportsCheck() {
 	file, err := os.Open("itinerary/airport-lookup.csv")
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -67,18 +59,18 @@ func airportsCheck() bool {
 		} else {
 			fmt.Println("Error opening airport lookup file:", err)
 		}
-		return false
+		return 
 	}
 	defer file.Close()
 
 	airportsScanner := bufio.NewScanner(file)
 
-	// Check if the file is empty
+	// Skip header row (first line)
 	if !airportsScanner.Scan() {
 		fmt.Println("Airport lookup file is empty")
-		return false
+		return 
 	}
 
-	fmt.Println("Airport lookup file found")
-	return true
+	fmt.Println("Airport lookup file found successfully")
+	return 
 }
