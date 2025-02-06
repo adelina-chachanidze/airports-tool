@@ -26,10 +26,11 @@ func airportCodes() {
 	scanner := bufio.NewScanner(file)
 
 	// Step 4: Regex patterns for different codes
-	icaoRegex := regexp.MustCompile(`##(\w{4})`)
+	icaoRegex := regexp.MustCompile(`\#\#(\w{4})\b`)
 	cityIcaoRegex := regexp.MustCompile(`\*(##\w{4})`)
-	iataRegex := regexp.MustCompile(`#(\w{3})`)
-	cityIataRegex := regexp.MustCompile(`\*(#\w{3})`)
+	iataRegex := regexp.MustCompile(`(^|[^#])#(\w{3})\b`)
+	cityIataRegex := regexp.MustCompile(`\s\*#(\w{3})\b`)
+
 
 	// Step 5: Process each line of the input file
 	for scanner.Scan() {
@@ -70,7 +71,7 @@ func airportCodes() {
 
 		// Find and replace IATA codes (#LAX)
 		line = iataRegex.ReplaceAllStringFunc(line, func(match string) string {
-			code := match[1:] // Extract the code (e.g., "LAX" from "#LAX")
+			code := match[2:] // Extract the code (e.g., "LAX" from "#LAX")
 			if name, found := airportData[code]; found {
 				return name // Replace with the airport name
 			}
