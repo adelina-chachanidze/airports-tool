@@ -53,5 +53,30 @@ func outputFormatting() error {
 		return fmt.Errorf("error writing formatted content: %w", err)
 	}
 
+	userErrors()
+
 	return nil
+}
+
+func userErrors() {
+	content, _ := os.ReadFile("itinerary/output.txt")
+	scanner := bufio.NewScanner(bytes.NewReader(content))
+	lineNumber := 0
+	var errorLines []int
+
+	for scanner.Scan() {
+		lineNumber++
+		if strings.Contains(scanner.Text(), "#") {
+			errorLines = append(errorLines, lineNumber)
+		}
+	}
+
+	if len(errorLines) > 0 {
+		numbers := make([]string, len(errorLines))
+		for i, line := range errorLines {
+			numbers[i] = fmt.Sprintf("%d", line)
+		}
+		fmt.Printf("\033[33mPossible error on line(s) %s. Please check your input file.\033[0m\n",
+			strings.Join(numbers, ","))
+	}
 }
