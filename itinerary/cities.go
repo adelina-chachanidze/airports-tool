@@ -41,7 +41,7 @@ func airportCodes() {
 		if name, found := airportData[code]; found {
 			city := getCityFromAirport(name)
 			if city != "" {
-				return city
+				return " " + city
 			}
 		}
 		return match
@@ -58,14 +58,13 @@ func airportCodes() {
 	content = iataRegex.ReplaceAllStringFunc(content, func(match string) string {
 		code := match[2:]
 		if name, found := airportData[code]; found {
-			return name
+			return match[:1] + " " + name
 		}
 		return match
 	})
 
 	// Write back to the output file
 	os.WriteFile("itinerary/output.txt", []byte(content), 0644)
-
 	formatTimes()
 }
 

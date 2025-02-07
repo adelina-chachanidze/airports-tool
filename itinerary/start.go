@@ -17,8 +17,8 @@ func Starting() {
 	if inputCheck() && airportsCheck() {
 		createOutputFile()
 	}
-
 	airportCodes()
+	outputFormatting()
 }
 
 func createOutputFile() {
@@ -50,8 +50,6 @@ func createOutputFile() {
 		fmt.Println("Error reading from input file:", err)
 		return
 	}
-
-	airportCodes()
 	writer.Flush()
 }
 
