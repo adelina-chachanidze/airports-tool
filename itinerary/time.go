@@ -10,57 +10,36 @@ import (
 )
 
 func formatTimes() {
-	input, err := os.ReadFile("itinerary/output.txt")
+	input, _ := os.ReadFile("itinerary/input.txt")
 	lines := strings.Split(string(input), "\n")
+	outputFile, _ := os.OpenFile("itinerary/output.txt", os.O_WRONLY, 0644)
 
 	var processedLines []string
 	seenTimeSection := false
 
 	for _, line := range lines {
-		if strings.HasPrefix(line, "1. D(") || strings.HasPrefix(line, "1. T") {
+		if strings.HasPrefix(line, "D(") || strings.HasPrefix(line, "T") {
 			seenTimeSection = true
-			break
+			// Process the time format line
+			processedLine := processTimeFormats(line)
+			processedLines = append(processedLines, processedLine)
+			continue
 		}
 		if !seenTimeSection {
 			processedLines = append(processedLines, line)
+		} else {
+			// Continue processing lines after seeing time section
+			processedLine := processTimeFormats(line)
+			processedLines = append(processedLines, processedLine)
 		}
 	}
-
-	timeLines := getTimeEntries(lines)
-	processedLines = append(processedLines, timeLines...)
-
-	outputFile, err := os.Create("itinerary/output.txt")
-	if err != nil {
-		fmt.Println("Error opening output file:", err)
-		return
-	}
-	defer outputFile.Close()
 
 	writer := bufio.NewWriter(outputFile)
 	for _, line := range processedLines {
 		writer.WriteString(line + "\n")
 	}
 	writer.Flush()
-}
-
-func getTimeEntries(lines []string) []string {
-	var timeEntries []string
-	for _, line := range lines {
-		if strings.HasPrefix(line, "1. ") ||
-			strings.HasPrefix(line, "2. ") ||
-			strings.HasPrefix(line, "3. ") ||
-			strings.HasPrefix(line, "4. ") ||
-			strings.HasPrefix(line, "5. ") ||
-			strings.HasPrefix(line, "6. ") ||
-			strings.HasPrefix(line, "7. ") ||
-			strings.HasPrefix(line, "8. ") ||
-			strings.HasPrefix(line, "9. ") {
-
-			line = processTimeFormats(line)
-			timeEntries = append(timeEntries, line)
-		}
-	}
-	return timeEntries
+	fmt.Println("formatTimes works")
 }
 
 func processTimeFormats(line string) string {

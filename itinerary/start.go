@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func Starting() {
@@ -17,8 +18,6 @@ func Starting() {
 	if inputCheck() && airportsCheck() {
 		createOutputFile()
 	}
-	airportCodes()
-	outputFormatting()
 }
 
 func createOutputFile() {
@@ -51,6 +50,7 @@ func createOutputFile() {
 		return
 	}
 	writer.Flush()
+	airportCodes()
 }
 
 func inputCheck() bool {
@@ -75,6 +75,7 @@ func inputCheck() bool {
 
 	fmt.Println("Input file found successfully")
 	return true
+
 }
 
 func airportsCheck() bool {
@@ -94,6 +95,37 @@ func airportsCheck() bool {
 	// Skip header row (first line)
 	if !airportsScanner.Scan() {
 		fmt.Println("Airport lookup file is empty")
+		return false
+	}
+
+	// Check header row format
+	headerRow := airportsScanner.Text()
+	expectedHeader := "name,iso_country,municipality,icao_code,iata_code,coordinates"
+	if headerRow != expectedHeader {
+		fmt.Println("Airport lookup file is malformed: incorrect column order or missing columns")
+		return false
+	}
+
+	// Check each row for empty cells
+	lineNumber := 1 // Start from 1 since we already read the header
+	for airportsScanner.Scan() {
+		lineNumber++
+		line := airportsScanner.Text()
+
+		// Split the line into columns
+		columns := strings.Split(line, ",")
+
+		// Check for empty cells
+		for i, cell := range columns {
+			if strings.TrimSpace(cell) == "" {
+				fmt.Printf("Airport lookup file is malformed: empty cell found on line %d, column %d\n", lineNumber, i+1)
+				return false
+			}
+		}
+	}
+
+	if err := airportsScanner.Err(); err != nil {
+		fmt.Println("Error reading airport lookup file:", err)
 		return false
 	}
 

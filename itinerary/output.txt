@@ -2,29 +2,33 @@ Flight Itinerary
 Line 1Line 2
 Line 1Line 2
 Line 1
-Line 2
-Los Angeles International Airport to London on D(2023-07-15T09:00-07:00)
+Line 2Los Angeles International Airport to London on D(2023-07-15T09:00-07:00)
 Departure: T12(2023-07-15T09:00-07:00)
 Arrival: T24(2023-07-16T12:00Z)
 Departure: T12(2023-07-15T09:00-07:00)
-Dep2: T12(2007-04-05T12:30−02:00)
+Dep2:        T12(2007-04-05T12:30−02:00)
 Hel#KUOlo
+
 
 #HKI Flight
 
-Your flight departs from Hannover Airport and your destination is Bremen Airport
+Your flight departs fromHannover Airport and your destination is Bremen Airport
 Your flight departs from ##HAJ, and your destination is #EDDW.
 
-Your flight departs from Hannover Airport, and your destination is Bremen Airport.
-(Southampton Airport) to Hawarden Airport. on D(2023-07-15T09:00-07:00)
+Your flight departs fromHannover Airport, and your destination is Bremen Airport.
+(Southampton Airport) to         Hawarden Airport. on D(2023-07-15T09:00-07:00)
+
 
 Departure: T12(2023-07-15T09:00-07:00)
 Arrival: T24(2023-07-16T12:00Z)
 ##WWK to #BIHN on D(2023-07-15T09:00-07:00)
 (*##WWK) to #BIHN... on D(2023-07-15T09:00-07:00)
-(* Wewak International Airport) to #BIHN... on D(2023-07-15T09:00-07:00)
+(Wewak International Airport) to #BIHN... on D(2023-07-15T09:00-07:00)
 (*#BIEG) to #BIHN... on D(2023-07-15T09:00-07:00)
 (Egilssta����ir) to #BIHN... on D(2023-07-15T09:00-07:00)
+
+
+
 
 ##OOOO to #AAA on D(2023-08-15T09:00-07:00)
 D(2022-05-09T08:07Z)
