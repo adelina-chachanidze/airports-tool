@@ -11,10 +11,6 @@ import (
 
 func formatTimes() {
 	input, err := os.ReadFile("itinerary/output.txt")
-	if err != nil {
-		fmt.Println("Error reading output file:", err)
-		return
-	}
 	lines := strings.Split(string(input), "\n")
 
 	var processedLines []string

@@ -1,3 +1,7 @@
+
+
+
+
 IATA: # + 3 LETTERS
 ICAO: ## + 4 LETTERS
 
@@ -12,17 +16,6 @@ ICAO: ## + 4 LETTERS
 IATA airports: #WMI,            #CEG, #HKI,  #SIJ
 ICAO airports: ##AYMN, ##UBTT, ##HKII, ##BIHN
 
-            correct, correct, doesnt exist, malformed
-IATA cities: *#WMI, *#CEG, *#HKI, *#SIJ
-ICAO cities: *##AYMN, *##UBTT, *##HKII, *##BIHN
-
-INCORRECT: ##WMI, #UBTT, *##AYM, *#UBTT, *##CEG, AYMN, ###WMI
-
-CORRECT AIRPORTS: Your flight form #ELU to ##FARS is going to be delayed by 1 hour
-INCORRECT AIRPORTS: Your flight form ##ELU to #FARS is going to be delayed by 1 hour
-
-CORRECT CITIES: There're 3628km between *#ASE and *##FBMN 
-INCORRECT CITIES: There're 3628km between *##ASE and *#FBMN 
 
 1. D(2022-05-09T08:07)
 2. T12(2069-04-24T19:18-02:00)
@@ -35,6 +28,7 @@ INCORRECT CITIES: There're 3628km between *##ASE and *#FBMN
 9. T24(2042-09-01T21:43Z)
 
 Run the program, and the output file should be:
+
 1. 09 May 2022
 2. 07:18PM (-02:00)
 3. 02:54PM (+00:00)
@@ -44,3 +38,16 @@ Run the program, and the output file should be:
 7. 17:54 (+00:00)
 8. 15:29 (-11:00)
 9. 21:43 (+00:00)
+
+            correct, correct, doesnt exist, malformed
+IATA cities: *#WMI, *#CEG, *#HKI, *#SIJ
+ICAO cities: *##AYMN, *##UBTT, *##HKII, *##BIHN
+
+INCORRECT: ##WMI, #UBTT, *##AYM, *#UBTT, *##CEG, AYMN, ###WMI
+
+CORRECT AIRPORTS: Your flight form #ELU to ##FARS is going to be delayed by 1 hour
+INCORRECT AIRPORTS: Your flight form ##ELU to #FARS is going to be delayed by 1 hour
+
+CORRECT CITIES: There're 3628km between *#ASE and *##FBMN 
+INCORRECT CITIES: There're 3628km between *##ASE and *#FBMN 
+

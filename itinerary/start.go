@@ -19,16 +19,40 @@ func Starting() {
 	}
 
 	airportCodes()
-	outputFormatting()
 }
 
 func createOutputFile() {
+	// Open input file
+	inputFile, err := os.Open("itinerary/input.txt")
+	defer inputFile.Close()
+
+	// Create output file
 	outputFile, err := os.Create("itinerary/output.txt")
 	if err != nil {
 		fmt.Println("Error creating output file:", err)
 		return
 	}
 	defer outputFile.Close()
+
+	// Copy contents from input to output
+	scanner := bufio.NewScanner(inputFile)
+	writer := bufio.NewWriter(outputFile)
+
+	for scanner.Scan() {
+		_, err := writer.WriteString(scanner.Text() + "\n")
+		if err != nil {
+			fmt.Println("Error writing to output file:", err)
+			return
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error reading from input file:", err)
+		return
+	}
+
+	airportCodes()
+	writer.Flush()
 }
 
 func inputCheck() bool {

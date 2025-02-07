@@ -1,7 +1,6 @@
 package itinerary
 
 import (
-	"bufio"
 	"encoding/csv"
 	"fmt"
 	"os"
@@ -10,73 +9,62 @@ import (
 )
 
 func airportCodes() {
-
 	airportData := loadAirportCodes("itinerary/airport-lookup.csv")
 
-	file, _ := os.Open("itinerary/input.txt")
-	defer file.Close()
+	// Read the entire output file
+	input, err := os.ReadFile("itinerary/output.txt")
+	if err != nil {
+		return
+	}
+	content := string(input)
 
-	outputFile, _ := os.OpenFile("itinerary/output.txt", os.O_WRONLY|os.O_TRUNC, 0644)
-	defer outputFile.Close()
-
-	writer := bufio.NewWriter(outputFile)
-	scanner := bufio.NewScanner(file)
-
+	// Define regex patterns
 	icaoRegex := regexp.MustCompile(`\#\#(\w{4})\b`)
 	cityIcaoRegex := regexp.MustCompile(`\*(##\w{4})`)
 	iataRegex := regexp.MustCompile(`(^|[^#])#(\w{3})\b`)
 	cityIataRegex := regexp.MustCompile(`\s\*#(\w{3})\b`)
 
-	for scanner.Scan() {
-		line := scanner.Text()
-
-		// Find and replace *##ICAO codes (*##EGLL) with the city name
-		line = cityIcaoRegex.ReplaceAllStringFunc(line, func(match string) string {
-			code := match[3:] // Extract the code (e.g., "EGLL" from "*##EGLL")
-			if name, found := airportData[code]; found {
-				city := getCityFromAirport(name)
-				if city != "" {
-					return city // Replace with the city name
-				}
+	// Process the content with all regex replacements
+	content = cityIcaoRegex.ReplaceAllStringFunc(content, func(match string) string {
+		code := match[3:]
+		if name, found := airportData[code]; found {
+			city := getCityFromAirport(name)
+			if city != "" {
+				return city
 			}
-			return match // Leave unchanged if not found or invalid
-		})
+		}
+		return match
+	})
 
-		// Find and replace *#IATA codes (*#LAX) with the city name
-		line = cityIataRegex.ReplaceAllStringFunc(line, func(match string) string {
-			code := match[2:] // Extract the code (e.g., "LAX" from "*#LAX")
-			if name, found := airportData[code]; found {
-				city := getCityFromAirport(name)
-				if city != "" {
-					return city // Replace with the city name
-				}
+	content = cityIataRegex.ReplaceAllStringFunc(content, func(match string) string {
+		code := match[2:]
+		if name, found := airportData[code]; found {
+			city := getCityFromAirport(name)
+			if city != "" {
+				return city
 			}
-			return match // Leave unchanged if not found or invalid
-		})
+		}
+		return match
+	})
 
-		// Find and replace ICAO codes (##EGLL)
-		line = icaoRegex.ReplaceAllStringFunc(line, func(match string) string {
-			code := match[2:] // Extract the code (e.g., "EGLL" from "##EGLL")
-			if name, found := airportData[code]; found {
-				return name // Replace with the airport name
-			}
-			return match // Leave unchanged if not found
-		})
+	content = icaoRegex.ReplaceAllStringFunc(content, func(match string) string {
+		code := match[2:]
+		if name, found := airportData[code]; found {
+			return name
+		}
+		return match
+	})
 
-		// Find and replace IATA codes (#LAX)
-		line = iataRegex.ReplaceAllStringFunc(line, func(match string) string {
-			code := match[2:] // Extract the code (e.g., "LAX" from "#LAX")
-			if name, found := airportData[code]; found {
-				return name // Replace with the airport name
-			}
-			return match // Leave unchanged if not found
-		})
+	content = iataRegex.ReplaceAllStringFunc(content, func(match string) string {
+		code := match[2:]
+		if name, found := airportData[code]; found {
+			return name
+		}
+		return match
+	})
 
-		// Write the updated line to the output file
-		writer.WriteString(line + "\n")
-	}
-
-	writer.Flush()
+	// Write back to the output file
+	os.WriteFile("itinerary/output.txt", []byte(content), 0644)
 
 	formatTimes()
 }

@@ -15,46 +15,43 @@ func outputFormatting() error {
 		return fmt.Errorf("error reading output file: %w", err)
 	}
 
-	// Convert vertical whitespace characters to newlines
-	content = bytes.ReplaceAll(content, []byte{'\v'}, []byte{'\n'})
-	content = bytes.ReplaceAll(content, []byte{'\f'}, []byte{'\n'})
-	content = bytes.ReplaceAll(content, []byte{'\r'}, []byte{'\n'})
+	// Convert content to string for easier manipulation
+	text := string(content)
 
-	// Create a scanner to process line by line
-	scanner := bufio.NewScanner(bytes.NewReader(content))
-	var formattedLines []string
-	emptyLineCount := 0
+	// Replace line-break characters with newline
+	text = strings.ReplaceAll(text, "\v", "\n")
+	text = strings.ReplaceAll(text, "\f", "\n")
+	text = strings.ReplaceAll(text, "\r", "\n")
 
-	// Process each line
-	for scanner.Scan() {
-		// Trim trailing whitespace and collapse multiple spaces into single spaces
-		line := scanner.Text()
+	// Split into lines for processing
+	lines := strings.Split(text, "\n")
+
+	// Process each line and handle consecutive blank lines
+	var processedLines []string
+	lastLineWasBlank := false
+
+	for _, line := range lines {
+		// Trim extra spaces within the line
 		line = strings.Join(strings.Fields(line), " ")
 
-		if line == "" {
-			emptyLineCount++
-			if emptyLineCount <= 1 {
-				formattedLines = append(formattedLines, line)
-			}
-		} else {
-			emptyLineCount = 0
-			formattedLines = append(formattedLines, line)
+		isBlankLine := len(strings.TrimSpace(line)) == 0
+
+		// Skip if we would create consecutive blank lines
+		if isBlankLine && lastLineWasBlank {
+			continue
 		}
+
+		processedLines = append(processedLines, line)
+		lastLineWasBlank = isBlankLine
 	}
 
-	if err := scanner.Err(); err != nil {
-		return fmt.Errorf("error scanning content: %w", err)
-	}
-
-	// Write the formatted content back to the file
-	output := strings.Join(formattedLines, "\n")
+	// Join lines back together and write to file
+	output := strings.Join(processedLines, "\n")
 	err = os.WriteFile("itinerary/output.txt", []byte(output), 0644)
 	if err != nil {
-		return fmt.Errorf("error writing formatted content: %w", err)
+		return fmt.Errorf("error writing output file: %w", err)
 	}
-
 	userErrors()
-
 	return nil
 }
 
